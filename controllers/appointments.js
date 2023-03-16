@@ -92,7 +92,7 @@ exports.updateAppointment = async (req,res,next)=>{
         }
 
         if(appointment.user.toString() !== req.user.id && req.user.role !== 'admin'){
-            return res.status(401).json({success:false,messag:`User ${req.params.id} is not authorized to update this appointment`});
+            return res.status(401).json({success:false,messag:`User ${req.user.id} is not authorized to update this appointment`});
         }
 
         appointment = await Appointment.findByIdAndUpdate(req.params.id,req.body,{
@@ -113,7 +113,7 @@ exports.deleteAppointment = async (req,res,next)=>{
             return res.status(404).json({success:false,messag:`No appointment with the id of ${req.params.id}`});
         }
         if(appointment.user.toString() !== req.user.id && req.user.role !== 'admin'){
-            return res.status(401).json({success:false,messag:`User ${req.params.id} is not authorized to delete this appointment`});
+            return res.status(401).json({success:false,messag:`User ${req.user.id} is not authorized to delete this appointment`});
         }
 
         await appointment.remove();
